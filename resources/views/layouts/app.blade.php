@@ -6,5 +6,8 @@
   <body>
     <title>My blog</title>
 
+    <div>
+      @yield('content')
+    </div>
   </body>
 </html>
