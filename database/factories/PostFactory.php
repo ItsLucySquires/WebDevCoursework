@@ -7,7 +7,7 @@ use Faker\Generator as Faker;
 
 $factory->define(Post::class, function (Faker $faker) {
     return [
-      'user_id'=>App\ForumUser::inRandomOrder()->first()->id,
+      'user_id'=>App\User::inRandomOrder()->first()->id,
       'content'=>$faker->sentence(),
     ];
 });

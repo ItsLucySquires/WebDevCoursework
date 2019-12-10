@@ -8,4 +8,10 @@
     <li>Date: </li>
     <li>Content: {{$post -> content}}</li>
   </ul>
+  <p>
+  <ul>
+    @foreach ($comments as $comment)
+        <li>{{$comment->content}}</li>
+    @endforeach
+  </ul>
 @endsection

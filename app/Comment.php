@@ -10,7 +10,7 @@ class Comment extends Model
     public function post(){
       return $this->belongsTo('App\Post');
     }
-    public function forum_user(){
-      return $this->belongsTo('App\ForumUser');
+    public function user(){
+      return $this->belongsTo('App\User');
     }
 }
