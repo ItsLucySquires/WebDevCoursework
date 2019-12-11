@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -15,18 +14,14 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
+        $posts=Post::all();
         return view('posts.index', ['posts'=>$posts]);
     }
 
     public function apiIndex()
     {
-        $posts = Post::all();
+        $posts=Post::all();
         return $posts;
-    }
-
-    public function page(){
-      return view('posts.index');
     }
 
     /**
@@ -36,8 +31,7 @@ class PostController extends Controller
      */
     public function create()
     {
-        $posts = Post::all();
-        return view('posts.create', ['posts'=>$posts]);
+        //
     }
 
     /**
@@ -48,26 +42,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData=$request->validate([
-          'content'=>'required|max:255'
-        ]);
-        $p = new Post;
-        $p -> user_id = auth()->user()->id;
-        $p -> content = $request['content'];
-        $p -> save();
-        return redirect()->route('posts.index');
-    }
-
-    public function apiStore(Request $request)
-    {
-        $validatedData=$request->validate([
-          'content'=>'required|max:255'
-        ]);
-        $p = new Post;
-        $p -> user_id = auth()->user()->id;
-        $p-> name=$request['contents'];
-        $p-> save();
-        return $p;
+        //
     }
 
     /**
@@ -78,15 +53,7 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post = Post::findOrFail($id);
-        return view('posts.show', ['post'=>$post]);
-
-    }
-
-    public function apiShow($id)
-    {
-        $post = Post::findOrFail($id);
-        return view('posts.show', ['post'=>$post]);
+        //
     }
 
     /**

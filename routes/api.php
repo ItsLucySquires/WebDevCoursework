@@ -17,10 +17,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-//Route::get('posts/{id}', 'CommentController@apiIndex')->name('api.comments.index');
 
 Route::get('posts', 'PostController@apiIndex')->name('api.posts.index');
 
-Route::get('posts', 'PostController@apiShow')->name('api.posts.show');
 
 Route::post('posts', 'PostController@apiStore')->name('api.posts.store');
