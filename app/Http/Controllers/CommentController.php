@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Comment;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -13,7 +14,14 @@ class CommentController extends Controller
      */
     public function index()
     {
-        //
+      $c = Comment::all();
+      return view('posts.show', ['comments'=>$c]);
+    }
+
+    public function apiIndex()
+    {
+      $c = Comment::all();
+      return $c;
     }
 
     /**
@@ -46,6 +54,12 @@ class CommentController extends Controller
     public function show($id)
     {
         //
+    }
+
+    public function apiShow($id)
+    {
+        $post = Comment::all();
+        return view('posts.show', ['post'=>$post]);
     }
 
     /**
