@@ -2,12 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Post;
-use App\Comment;
 use App\User;
 use Illuminate\Http\Request;
 
-class PostController extends Controller
+class UserController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,17 +14,13 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts=Post::all();
-        return view('posts.index', ['posts'=>$posts]);
+        //
     }
 
     public function apiIndex()
     {
-        $posts=Post::all();
-        return view('posts.index', ['posts'=>$posts]);
-        /**$posts=Post::all();
-        $stuffToReturn=$posts->comments()->with('user')->get();
-        return $stuffToReturn;*/
+        $users=User::all();
+        return $users;
     }
 
     /**
@@ -36,6 +30,7 @@ class PostController extends Controller
      */
     public function create()
     {
+        //
     }
 
     /**
@@ -46,22 +41,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        console.log("Hello");
-        $p=new Post;
-        $p->user_id=Sentry::getUser()->id;
-        $p->content=$validatedData['content'];
-        $p->save();
-        return view('posts.index', ['posts'=>$posts]);
-    }
-
-    public function apiStore(Request $request)
-    {
-        $p=new Post;
-        $p->user_id=1;
-        $p->content=$request['content'];
-        $p->save();
-        return view('posts.index', ['posts'=>$posts]);
-
+        //
     }
 
     /**
@@ -72,17 +52,13 @@ class PostController extends Controller
      */
     public function show($id)
     {
-        $post=Post::findOrFail($id);
-        return view('posts.show', ['post'=>$post]);
+        //
     }
 
-    public function apiShow($id)
-    {
-       $post=Post::findOrFail($id);
-       //$stuffToReturn=$post->comments()->with('user')->get();
-       //return $stuffToReturn;
-       return view('posts.show', ['post'=>$post]);
-    }
+
+     public function apiShow($id)
+     {
+     }
 
     /**
      * Show the form for editing the specified resource.
