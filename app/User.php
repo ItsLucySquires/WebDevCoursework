@@ -19,6 +19,11 @@ class User extends Authenticatable
     public function profile(){
       return $this->hasOne('App\Profile');
     }
+
+    public function users(){
+      return $this->belongsToMany('App\User');
+    }
+
     use Notifiable;
 
     /**

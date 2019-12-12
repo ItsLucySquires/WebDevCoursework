@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\User;
 use Illuminate\Http\Request;
+use App\Profile;
 
-class UserController extends Controller
+class ProfileController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -15,12 +15,6 @@ class UserController extends Controller
     public function index()
     {
         //
-    }
-
-    public function apiIndex()
-    {
-        $users=User::all();
-        return $users;
     }
 
     /**
@@ -52,16 +46,15 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user=User::findOrFail($id);
-        return view('users.show', ['user'=>$user]);
+        $profile=Profile::where('user_id', $id)->first();
+        return view('profile.show', ['profile'=>$profile]);
     }
 
-
-     public function apiShow($id)
-     {
-         $user=User::findOrFail($id);
-         return view('users.show', ['user'=>$user]);
-     }
+    public function apiShow($id)
+    {
+        $profile=Profile::where('user_id', $id)->first();
+        return view('profile.show', ['profile'=>$profile]);
+    }
 
     /**
      * Show the form for editing the specified resource.
@@ -84,6 +77,12 @@ class UserController extends Controller
     public function update(Request $request, $id)
     {
         //
+    }
+
+    public function apiUpdate(Request $request, $id)
+    {
+
+          $profile=Profile::findOrFail($id);
     }
 
     /**

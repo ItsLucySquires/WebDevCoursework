@@ -79,8 +79,6 @@ class PostController extends Controller
     public function apiShow($id)
     {
        $post=Post::findOrFail($id);
-       //$stuffToReturn=$post->comments()->with('user')->get();
-       //return $stuffToReturn;
        return view('posts.show', ['post'=>$post]);
     }
 

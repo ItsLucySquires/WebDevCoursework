@@ -37,6 +37,16 @@ class CommentController extends Controller
         //
     }
 
+    public function apiStore($id, Request $request)
+    {
+          $p=new Comment;
+          $p->user_id=1;
+          $p->post_id=$id;
+          $p->content=$request['content'];
+          $p->save();
+          return view('comments.show', ['comments'=>$comments]);
+    }
+
     /**
      * Display the specified resource.
      *

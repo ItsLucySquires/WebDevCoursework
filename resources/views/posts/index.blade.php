@@ -6,12 +6,14 @@
   <body>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"> </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
-    <p>Posts</p>
-
+    <h2>Posts</h2>
       <ul>
         @foreach ($posts as $post)
           <li>
-              {{$post->user->name}} says:
+              <a href="{{ route('api.users.show', ['id'=>$post->user_id])}}">
+                {{$post->user->name}}
+              </a>
+              says:<br/>
               <a href="{{ route('api.posts.show', ['id'=>$post->id])}}">
                 {{$post->content}}
               </a>

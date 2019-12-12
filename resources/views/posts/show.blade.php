@@ -14,6 +14,36 @@
       </li>
       @endforeach
     </ul>
+    <div id="root">
+      <h3>Add comment</h3>
+      <input type="text" id="input" v-model="newCommentContent">
+      <button @click="addContent">Add post</button>
+    </div>
+    <script>
+      var app=new Vue({
+        el: "#root",
+        data: {
+          comments: [],
+          newCommentContent: '',
+        },
+        methods: {
+            addContent: function(){
+              var i={!! json_encode($post->id) !!};
+              console.log(i);
+              axios.post("{{ route ('api.comments.store', ['id'=>$post->id]) }}", {
+                content: this.newCommentContent
+              })
+              .then(response =>{
+                this.comments.push(response.data);
+                this.newCommentContent = '';
+              })
+              .catch(response =>{
+                console.log(response);
+              })
+            }
+          }
+        });
+    </script>
 
   </body>
 </html>
