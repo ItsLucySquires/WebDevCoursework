@@ -6,25 +6,21 @@
   <body>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"> </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
-    <p>Posts</p>
+    <p>@{{post.content}}</p>
     <div id="root">
-      <ul>
-        <li v-for="post in posts" v-bind:href="'posts/'+post.id">says: @{{ post.content }} </li>
-      </ul>
-      <h3>Create a post</h3>
-      <input type="text" id="input" v-model="newPostContent">
-      <button @click="addContent">Add post</button>
+
     </div>
     <script>
       var app=new Vue({
         el: "#root",
         data: {
-          posts: [],
+          post: '',
+          comments: [],
         },
         mounted(){
-          axios.get("{{ route ('api.posts.index') }}")
+          axios.get("{{ route ('api.posts.show') }}")
           .then(response =>{
-            this.posts=response.data;
+            this.post=response.data;
           })
           .catch(response=>{
             console.log(response);
@@ -45,6 +41,7 @@
             }
           }
         });
+      });
     </script>
   </body>
 </html>

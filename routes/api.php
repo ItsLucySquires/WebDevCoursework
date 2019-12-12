@@ -17,8 +17,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-
 Route::get('posts', 'PostController@apiIndex')->name('api.posts.index');
 
+Route::get('posts/create', 'PostController@apiCreate')->name('api.posts.create');
 
 Route::post('posts', 'PostController@apiStore')->name('api.posts.store');
+
+Route::get('posts/{id}', 'PostController@apiShow')->name('api.posts.show');
