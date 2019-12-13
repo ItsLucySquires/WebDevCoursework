@@ -24,9 +24,6 @@ class PostController extends Controller
     {
         $posts=Post::all();
         return view('posts.index', ['posts'=>$posts]);
-        /**$posts=Post::all();
-        $stuffToReturn=$posts->comments()->with('user')->get();
-        return $stuffToReturn;*/
     }
 
     /**

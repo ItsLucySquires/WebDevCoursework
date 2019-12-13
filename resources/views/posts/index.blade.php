@@ -10,7 +10,7 @@
       <ul>
         @foreach ($posts as $post)
           <li>
-              <a href="{{ route('api.users.show', ['id'=>$post->user_id])}}">
+              <a href="{{ route('api.profiles.show', ['id'=>$post->user_id])}}">
                 {{$post->user->name}}
               </a>
               says:<br/>
@@ -34,7 +34,6 @@
         },
         methods: {
             addContent: function(){
-
               axios.post("{{ route ('api.posts.store') }}", {
                 content: this.newPostContent
               })
