@@ -18,7 +18,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::put('profiles/{id}', 'ProfileController@apiUpdate')->name('api.profiles.update');
+Route::patch('profiles/{id}', 'ProfileController@apiUpdate')->name('api.profiles.update');
 
 Route::get('profiles/{id}', 'ProfileController@apiShow')->name('api.profiles.show');
 

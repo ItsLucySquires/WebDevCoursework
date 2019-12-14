@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Comment;
-class CommentController extends Controller
+use Illuminate\Support\Str;
+
+class ApiTokenController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -37,19 +38,6 @@ class CommentController extends Controller
         //
     }
 
-    public function apiStore($id, Request $request)
-    {
-      $validatedData=$request->validate([
-        'content'=>'required',
-      ]);
-      $p=new Comment;
-      $p->user_id=1;
-      $p->post_id=$id;
-      $p->content=$validatedData['content'];
-      $p->save();
-      return view('comments.show', ['comments'=>$comments]);
-    }
-
     /**
      * Display the specified resource.
      *
@@ -58,16 +46,8 @@ class CommentController extends Controller
      */
     public function show($id)
     {
-         $comments=Comment::where('post_id', $id)->get();
-         return $comments;
+        //
     }
-
-
-   public function apiShow($id)
-   {
-        $comments=Comment::where('post_id', $id)->get();
-        return $comments;
-   }
 
     /**
      * Show the form for editing the specified resource.
@@ -87,9 +67,13 @@ class CommentController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request)
     {
-        //
+        $token = $tr::random(80);
+        $request->user()->forceFill([
+          'api_token'=>hash('sha256', $token),
+        ])->save();
+        return ['token'=>$token];
     }
 
     /**

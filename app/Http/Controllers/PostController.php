@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Post;
-use App\Comment;
-use App\User;
+use App\Tag;
 use Illuminate\Http\Request;
+use Illuminate\Support\Auth;
 
 class PostController extends Controller
 {
@@ -43,22 +43,31 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        console.log("Hello");
-        $p=new Post;
-        $p->user_id=Sentry::getUser()->id;
-        $p->content=$validatedData['content'];
-        $p->save();
-        return view('posts.index', ['posts'=>$posts]);
+      $validatedData=$request->validate([
+        'content'=>'required',
+      ]);
+      $p=new Post;
+      $p->user_id=Sentry::getUser()->id;
+      $p->content=$validatedData['content'];
+      $p->save();
+      return view('posts.index', ['posts'=>$posts]);
     }
 
     public function apiStore(Request $request)
     {
-        $p=new Post;
-        $p->user_id=1;
-        $p->content=$request['content'];
-        $p->save();
-        return view('posts.index', ['posts'=>$posts]);
-
+      //Creating the model
+      $validatedData=$request->validate([
+        'content'=>'required',
+      ]);
+    //  $myTags=explode(" ", $request['tags']);
+      $p=new Post;
+      $p->user_id=1;
+      $p->content=$validatedData['content'];
+      $p->save();
+      $mcount=Post::all()->count();
+      $mpost=Post::find($mcount);
+      $mpost->tags()->sync([5,2,3]);
+      return view('posts.index', ['posts'=>$posts]);
     }
 
     /**

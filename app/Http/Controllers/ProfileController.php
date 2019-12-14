@@ -76,13 +76,24 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $validatedData=$request->validate([
+        'content'=>'required',
+      ]);
+      $profile=Profile::findOrFail($id);
+      $profile->descritpion=$validatedData['content'];
+      $profile->save();
+      return view('profiles.show', ['profiles'=>$profile]);
     }
 
     public function apiUpdate(Request $request, $id)
     {
-
-          $profile=Profile::findOrFail($id);
+      $validatedData=$request->validate([
+        'content'=>'required',
+      ]);
+      $profile=Profile::findOrFail($id);
+      $profile->descritpion=$request['content'];
+      $profile->save();
+      return view('profiles.show', ['profiles'=>$profile]);
     }
 
     /**
