@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Profile;
+use App\User;
 
 class ProfileController extends Controller
 {
@@ -46,14 +47,14 @@ class ProfileController extends Controller
      */
     public function show($id)
     {
-        $profile=Profile::where('user_id', $id)->first();
-        return view('profile.show', ['profile'=>$profile]);
+        $profile=Profile::findOrFail($id);
+        return view('profiles.show', ['profile'=>$profile]);
     }
 
     public function apiShow($id)
     {
-        $profile=Profile::where('user_id', $id)->first();
-        return view('profile.show', ['profile'=>$profile]);
+        $profile=Profile::findOrFail($id);
+        return view('profiles.show', ['profile'=>$profile]);
     }
 
     /**
@@ -76,22 +77,22 @@ class ProfileController extends Controller
      */
     public function update(Request $request, $id)
     {
-      $validatedData=$request->validate([
-        'content'=>'required',
-      ]);
-      $profile=Profile::findOrFail($id);
-      $profile->descritpion=$validatedData['content'];
-      $profile->save();
-      return view('profiles.show', ['profiles'=>$profile]);
+        $validatedData=$request->validate([
+          'content'=>'required',
+        ]);
+        $profile=Profile::where('user_id', $id)->first();
+        $profile->descritpion=$validatedData['content'];
+        $profile->save();
+        return view('profiles.show', ['profiles'=>$profile]);
     }
 
     public function apiUpdate(Request $request, $id)
     {
       $validatedData=$request->validate([
-        'content'=>'required',
+        'description'=>'required',
       ]);
-      $profile=Profile::findOrFail($id);
-      $profile->descritpion=$request['content'];
+      $profile=Profile::where('user_id', $id)->first();
+      $profile->description=$validatedData['description'];
       $profile->save();
       return view('profiles.show', ['profiles'=>$profile]);
     }

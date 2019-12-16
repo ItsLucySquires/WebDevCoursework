@@ -7,7 +7,10 @@ use Faker\Generator as Faker;
 
 $factory->define(Profile::class, function (Faker $faker) {
     return [
-      'user_id'=>App\User::inRandomOrder()->first()->id,
+      //'user_id'=>App\User::inRandomOrder()->first()->id,
       'description'=>$faker->sentence(),
+      'user_id'=>function(){
+        return factory(App\User::class)->create()->id;
+      }
     ];
 });

@@ -18,11 +18,11 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 
-Route::patch('profiles/{id}', 'ProfileController@apiUpdate')->name('api.profiles.update');
+Route::put('profiles/{id}', 'ProfileController@apiUpdate')->name('api.profiles.update');
 
 Route::get('profiles/{id}', 'ProfileController@apiShow')->name('api.profiles.show');
 
-Route::get('posts', 'PostController@apiIndex')->name('api.posts.index');
+Route::get('posts', 'PostController@apiIndex')->name('api.posts.index')->middleware('auth');
 
 Route::get('posts/create', 'PostController@apiCreate')->name('api.posts.create');
 

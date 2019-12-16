@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment;
+use Auth;
 class CommentController extends Controller
 {
     /**
@@ -32,20 +33,28 @@ class CommentController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store($id, Request $request)
     {
-        //
+      $validatedData=$request->validate([
+        'content'=>'required|min:3',
+      ]);
+      $p=new Comment;
+      $p->user_id=Auth::id();
+      $p->post_id=$id;
+      $p->content=$validatedData['content'];
+      $p->save();
+      return view('comments.show', ['comments'=>$comments]);
     }
 
     public function apiStore($id, Request $request)
     {
-      $validatedData=$request->validate([
-        'content'=>'required',
-      ]);
+      //$validatedData=$request->validate([
+        //'content'=>'required|min:3',
+      //]);
       $p=new Comment;
-      $p->user_id=1;
+      $p->user_id=Sentry::getUser()->id;
       $p->post_id=$id;
-      $p->content=$validatedData['content'];
+      $p->content=$request['content'];
       $p->save();
       return view('comments.show', ['comments'=>$comments]);
     }

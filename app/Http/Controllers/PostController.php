@@ -5,7 +5,8 @@ namespace App\Http\Controllers;
 use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
-use Illuminate\Support\Auth;
+use Illuminate\Support\redirect;
+use Auth;
 
 class PostController extends Controller
 {
@@ -44,29 +45,40 @@ class PostController extends Controller
     public function store(Request $request)
     {
       $validatedData=$request->validate([
-        'content'=>'required',
+        'content'=>'required|min:5',
       ]);
       $p=new Post;
-      $p->user_id=Sentry::getUser()->id;
+      $p->user_id=Auth::id();
       $p->content=$validatedData['content'];
       $p->save();
-      return view('posts.index', ['posts'=>$posts]);
+
+      //Assigning the tags
+      $mcount=Post::all()->count();
+      $mpost=Post::find($mcount);
+      $rand=range(1, 10);
+      shuffle($rand);
+      $tagSel=array_slice($rand, 0, 3);
+      $mpost->tags()->sync($tagSel);
+      return redirect()->route('index');
     }
 
     public function apiStore(Request $request)
     {
       //Creating the model
       $validatedData=$request->validate([
-        'content'=>'required',
+        'content'=>'required|min:5',
       ]);
-    //  $myTags=explode(" ", $request['tags']);
       $p=new Post;
       $p->user_id=1;
       $p->content=$validatedData['content'];
       $p->save();
+      //Assigning the tags
       $mcount=Post::all()->count();
       $mpost=Post::find($mcount);
-      $mpost->tags()->sync([5,2,3]);
+      $rand=range(1, 10);
+      shuffle($rand);
+      $tagSel=array_slice($rand, 0, 3);
+      $mpost->tags()->sync($tagSel);
       return view('posts.index', ['posts'=>$posts]);
     }
 
@@ -117,8 +129,10 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy($id, $uid)
     {
-        //
+          $post=Post::findOrFail($id);
+          $post->delete();
+          return redirect()->route('posts.index');
     }
 }

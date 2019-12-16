@@ -7,24 +7,20 @@
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"> </script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"> </script>
     <h2>Posts</h2>
-    <div id="root">
-      <h3>Create a post</h3>
-      <input type="text" id="input" v-model="newPostContent">
-      <br/>
-      <button @click="addContent">Add post</button>
-    </div>
     <ul>
         @foreach ($posts as $post)
           <li>
               <a href="{{ route('api.profiles.show', ['id'=>$post->user_id])}}">
                 {{$post->user->name}}
               </a>
-              says:<br/><br/>
+              says:<br/>
               &nbsp;&nbsp;&nbsp;
               <a href="{{ route('api.posts.show', ['id'=>$post->id])}}">
                 {{$post->content}}
               </a>
-              <br/><br/>
+              <br/>
+              <a href="{{ route('posts.destroy', ['id'=>$post->id, 'uid'=>$post->user_id])}}">Delete</a>
+              <br/>
               Tags:
               @foreach ($post->tags as $tag)
                 [{{$tag->name}}]
@@ -33,6 +29,12 @@
           </li>
         @endforeach
     </ul>
+    <div id="root">
+      <h3>Create a post</h3>
+      <input type="text" id="input" v-model="newPostContent">
+      <br/>
+      <button @click="addContent">Add post</button>
+    </div>
     <script>
       var app=new Vue({
         el: "#root",
@@ -42,7 +44,7 @@
         },
         methods: {
             addContent: function(){
-              axios.post("{{ route ('api.posts.store') }}", {
+              axios.post("{{ route ('posts.store') }}", {
                 content: this.newPostContent
               })
               .then(response =>{
