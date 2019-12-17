@@ -19,7 +19,13 @@
                 {{$post->content}}
               </a>
               <br/>
-              <a href="{{ route('posts.destroy', ['id'=>$post->id, 'uid'=>$post->user_id])}}">Delete</a>
+              <a href="{{route('posts.destroy', ['id'=>$post->id])}}">
+                Delete
+              </a>
+              &nbsp;&nbsp;
+              <a href="{{route('posts.edit', $post->id)}}">
+                Edit
+              </a>
               <br/>
               Tags:
               @foreach ($post->tags as $tag)
@@ -40,7 +46,6 @@
         el: "#root",
         data: {
           newPostContent: '',
-          newPostTags: '',
         },
         methods: {
             addContent: function(){

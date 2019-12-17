@@ -65,7 +65,7 @@ class RegisterController extends Controller
         $mcount=User::all()->count();
         Profile::create(['user_id'=>$mcount,
             'description'=>'Hello there']);
-        $user->sendEmailVerificationNotification();
+            
         return $user;
     }
 }

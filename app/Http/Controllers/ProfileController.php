@@ -86,8 +86,7 @@ class ProfileController extends Controller
         return view('profiles.show', ['profiles'=>$profile]);
     }
 
-    public function apiUpdate(Request $request, $id)
-    {
+    public function apiUpdate(Request $request, $id){
       $validatedData=$request->validate([
         'description'=>'required',
       ]);

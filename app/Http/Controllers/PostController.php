@@ -6,6 +6,7 @@ use App\Post;
 use App\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\redirect;
+use Illuminate\Support\Facades\Gate;
 use Auth;
 
 class PostController extends Controller
@@ -59,7 +60,7 @@ class PostController extends Controller
       shuffle($rand);
       $tagSel=array_slice($rand, 0, 3);
       $mpost->tags()->sync($tagSel);
-      return redirect()->route('index');
+      return redirect()->route('posts.index');
     }
 
     public function apiStore(Request $request)
@@ -79,7 +80,7 @@ class PostController extends Controller
       shuffle($rand);
       $tagSel=array_slice($rand, 0, 3);
       $mpost->tags()->sync($tagSel);
-      return view('posts.index', ['posts'=>$posts]);
+      return redirect()->route('posts.index');
     }
 
     /**
@@ -106,9 +107,30 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+
+    public function edit($id, Request $request)
     {
-        //
+         $post=Post::findOrFail($id);
+         $uid=Auth::id();
+         $pid=$post->user_id;
+         if (Gate::allows('update-post', $pid, $uid)) {
+           return view('posts.edit', ['post'=>$post]);
+         }else{
+           $posts=Post::all();
+           return view('posts.index', ['posts'=>$posts]);
+         }
+
+    }
+
+    public function myEdit(Request $request, $id)
+    {
+        $validatedData=$request->validate([
+          'content'=>'required|min:5',
+        ]);
+        $post=Post::findOrFail($id);
+        $post->content=$validatedData['content'];
+        $post->save();
+        return view('posts.index');
     }
 
     /**
@@ -129,10 +151,13 @@ class PostController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id, $uid)
+    public function destroy($id)
     {
           $post=Post::findOrFail($id);
-          $post->delete();
-          return redirect()->route('posts.index');
+          $uid=Auth::id();
+          $pid=$post->user_id;
+          if (Gate::allows('update-post', $pid, $uid)) {
+            $post->delete();
+          }
     }
 }
