@@ -19,7 +19,7 @@
                 {{$post->content}}
               </a>
               <br/>
-              <a href="{{route('posts.destroy', ['id'=>$post->id])}}">
+              <a href="{{route('posts.delete', $post->id)}}">
                 Delete
               </a>
               &nbsp;&nbsp;

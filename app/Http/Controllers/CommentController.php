@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Comment;
+use App\Post;
 use Auth;
+use Illuminate\Support\Facades\Gate;
+
 class CommentController extends Controller
 {
     /**
@@ -86,7 +89,26 @@ class CommentController extends Controller
      */
     public function edit($id)
     {
-        //
+        $comment=Comment::findOrFail($id);
+        $uid=Auth::id();
+        $pid=$comment->user_id;
+        if (Gate::allows('update-post', $pid, $uid)) {
+             return view('comments.edit', ['comment'=>$comment]);
+        }else{
+          $posts=Post::all();
+          return view('posts.index', ['posts'=>$posts]);
+        }
+    }
+
+    public function myEdit(Request $request, $id)
+    {
+        $validatedData=$request->validate([
+          'content'=>'required|min:5',
+        ]);
+        $comment=Comment::findOrFail($id);
+        $comment->content=$validatedData['content'];
+        $comment->save();
+        return view('posts.index');
     }
 
     /**
@@ -109,6 +131,13 @@ class CommentController extends Controller
      */
     public function destroy($id)
     {
-        //
+      $post=Comment::findOrFail($id);
+      $uid=Auth::id();
+      $pid=$post->user_id;
+      if (Gate::allows('update-post', $pid, $uid)){
+        $post->delete();
+      }
+      $posts=Post::all();
+      return view('posts.index', ['posts'=>$posts]);
     }
 }

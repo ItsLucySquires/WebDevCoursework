@@ -156,8 +156,11 @@ class PostController extends Controller
           $post=Post::findOrFail($id);
           $uid=Auth::id();
           $pid=$post->user_id;
-          if (Gate::allows('update-post', $pid, $uid)) {
+
+          if (Gate::allows('update-post', $pid, $uid)){
             $post->delete();
           }
+          $posts=Post::all();
+          return view('posts.index', ['posts'=>$posts]);
     }
 }

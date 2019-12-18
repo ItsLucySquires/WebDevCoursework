@@ -14,7 +14,13 @@
         {{$comment->user->name}}:
         <br/>
         &nbsp;&nbsp;&nbsp;
-        {{$comment->content}}
+        {{$comment->content}}&nbsp;
+        <a href="{{ route('comments.edit', ['id'=>$comment->id])}}">
+          Edit
+        </a>&nbsp;
+        <a href="{{route('comments.delete', $comment->id)}}">
+          Delete
+        </a>
       </li>
       @endforeach
     </ul>

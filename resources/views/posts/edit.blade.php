@@ -15,9 +15,10 @@
       <input type="text" id="input" v-model="newPostContent">
       <br/>
       <button @click="addContent">Change post</button>
-      <a href="posts.index">Back</href>
+      <a href="{{ route('posts.index') }}">Back</href>
     </div>
     <script>
+
       var app=new Vue({
         el: "#root",
         data: {

@@ -15,7 +15,7 @@
       <input type="text" id="input" v-model="newPostContent">
       <br/>
       <button @click="addContent">Change comment</button>
-      <a href="posts.index">Back</href>
+      <a href="{{ route('posts.index') }}">Back</a>
     </div>
     <script>
       var app=new Vue({
@@ -25,7 +25,7 @@
         },
         methods: {
             addContent: function(){
-              axios.post("{{ route ('posts.myedit', ['id'=>$post->id]) }}", {
+              axios.post("{{ route ('comments.myedit', ['id'=>$comment->id]) }}", {
                 content: this.newPostContent
               })
               .then(response =>{
